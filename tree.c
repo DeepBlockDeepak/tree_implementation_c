@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
 
 // binary tree implementation
 
@@ -70,25 +71,45 @@ void printtree(struct treenode_t *root){
     printtree_rec(root, 0);
 }
 
+
+bool find_path_sum(struct treenode_t **root, int sum){
+
+    if(!(*root) && sum != 0){
+        return false;
+    }
+
+    if((*root) && (sum == (**root).value)){
+        printf("Path found, ending on leaf value = %d\n", (**root).value);
+        return true;
+    }
+
+    find_path_sum(&(**root).left_child, sum - (**root).value);
+    find_path_sum(&(**root).right_child, sum - (**root).value);
+
+}
+
+
 int main(){
     
-    //int tabs = 1;
-    struct treenode_t *new_node = createnode(10);
+    struct treenode_t *new_node = createnode(8);
 
-    struct treenode_t *n2 = createnode(11);
-    struct treenode_t *n3 = createnode(12);
-    struct treenode_t *n4 = createnode(13);
-    struct treenode_t *n5 = createnode(14);
-    struct treenode_t *n6 = createnode(6);    
+    struct treenode_t *n2 = createnode(4);
+    struct treenode_t *n3 = createnode(13);
+    struct treenode_t *n4 = createnode(2);
+    struct treenode_t *n5 = createnode(6);
+    struct treenode_t *n6 = createnode(19);    
 
     new_node->left_child = n2;
     new_node->right_child = n3;
 
-    n3->left_child = n4;
-    n3->right_child = n5;
+    n2->left_child = n4;
+    n2->right_child = n5;
 
-    n5->left_child = n6;
+    n3->left_child = n6;
 
-    printtree(new_node);
+    //printtree(new_node);
+
+    find_path_sum(&new_node, 18);
+
 
 }

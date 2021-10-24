@@ -94,27 +94,78 @@ bool insert_number(struct treenode_t **root, int val){
 }
 
 
+bool find_number(struct treenode_t **root, int val){
+
+    if(!(*root)){
+        //printf("Tree is empty\n");
+        return false;
+    }
+
+    if((*root)->value == val){
+        return true;
+    }
+
+    if(val < (*root)->value){
+        find_number(&(*root)->left_child, val);
+    }
+
+    if(val > (*root)->value){
+        find_number(&(*root)->right_child, val);
+    }
+    
+}
+
+
+void in_order_printer(struct treenode_t *head){
+
+    if(!head){
+        return;
+    }
+
+    in_order_printer(head->left_child);
+    printf("%d\n", head->value);
+    in_order_printer(head->right_child);
+    return;
+
+}
+
+void post_order_printer(struct treenode_t *head){
+
+    if(!head){
+        return;
+    }
+
+    post_order_printer(head->right_child);
+    printf("%d\n", head->value);
+    post_order_printer(head->left_child);
+}
+
 int main(){
     
     //int tabs = 1;
-    struct treenode_t *new_node = createnode(1);
+    struct treenode_t *new_node = NULL;
 
-    struct treenode_t *n2 = createnode(2);
-    struct treenode_t *n3 = createnode(3);
-    struct treenode_t *n4 = createnode(4);
-    struct treenode_t *n5 = createnode(5);
-    struct treenode_t *n6 = createnode(6);    
+    insert_number(&new_node, 15);
+    insert_number(&new_node, 11);
+    insert_number(&new_node, 24);
+    insert_number(&new_node, 5);
+    insert_number(&new_node, 19);
+    insert_number(&new_node, 16);
 
-    new_node->left_child = n2;
-    new_node->right_child = n3;
-
-    n3->left_child = n4;
-    n3->right_child = n5;
-
-    n5->left_child = n6;
-
-    insert_number(&new_node, 3);
-
+    /*
+    if(find_number(&new_node, 19)){
+        printf("19 is in the tree\n");
+    }
+    */
     printtree(new_node);
+
+    in_order_printer(new_node);
+
+    insert_number(&new_node, 48);
+
+    printf("\n");
+    post_order_printer(new_node);
+
+
 
 }
